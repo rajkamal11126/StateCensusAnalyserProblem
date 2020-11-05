@@ -12,6 +12,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 
 public class StateCensusAnalyser {
 	private String STATE_CODE_CSV_FILE_PATH = "/StateCensusAnalyser/src/main/resources/IndiaStateCode.csv";
+	private String STATE_CENSUS_INFO_CSV_FILE_PATH = "/StateCensusAnalyser/src/main/resources/IndiaStateCensusData.csv";
 
 	public StateCensusAnalyser(String STATE_CODE_CSV_FILE_PATH) {
 		this.STATE_CODE_CSV_FILE_PATH = STATE_CODE_CSV_FILE_PATH;
@@ -20,6 +21,7 @@ public class StateCensusAnalyser {
 	public int readStateData() throws CensusCsvException {
 		int count = 0;
 		try (Reader reader = Files.newBufferedReader(Paths.get(STATE_CODE_CSV_FILE_PATH));) {
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			CsvToBean<CSVStates> csvToBean = new CsvToBeanBuilder(reader).withIgnoreLeadingWhiteSpace(true)
 					.withType(CSVStates.class).build();
 
@@ -47,5 +49,25 @@ public class StateCensusAnalyser {
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	public int readStateCensusInformation() throws CensusCsvException {
+        int count = 0;
+        try (Reader reader = Files.newBufferedReader(Paths.get(STATE_CENSUS_INFO_CSV_FILE_PATH))) {
+            @SuppressWarnings({ "rawtypes", "unchecked" })
+			CsvToBean<CSVStatesCensus> csvToBean = new CsvToBeanBuilder(reader)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .withType(CSVStatesCensus.class)
+                    .build();
+            Iterator<CSVStatesCensus> stateIterator = csvToBean.iterator();
+            while (stateIterator.hasNext()) {
+                @SuppressWarnings("unused")
+				CSVStatesCensus csvStatesCensus = stateIterator.next();
+                count++;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return count;
 	}
 }
