@@ -28,6 +28,11 @@ public class StateCensusAnalyser {
 			while (stateIterator.hasNext()) {
 				CSVStates csvStates = stateIterator.next();
 				count++;
+				if (csvStates.getSrNo() == 0 || csvStates.getStateName() == null || csvStates.getTIN() == null
+						|| csvStates.getStateCode() == null) {
+					throw new CensusCsvException("Exception due to Header",
+							CensusCsvException.ExceptionType.NO_SUCH_HEADER);
+				}
 			}
 		} catch (NoSuchFileException e) {
 			if (STATE_CODE_CSV_FILE_PATH.contains(".csv"))
