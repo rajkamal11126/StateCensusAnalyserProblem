@@ -17,7 +17,7 @@ public class StateCensusAnalyser {
 		this.STATE_CODE_CSV_FILE_PATH = STATE_CODE_CSV_FILE_PATH;
 	}
 
-	public int readStateData() throws CsvException {
+	public int readStateData() throws CensusCsvException {
 		int count = 0;
 		try (Reader reader = Files.newBufferedReader(Paths.get(STATE_CODE_CSV_FILE_PATH));) {
 			CsvToBean<CSVStates> csvToBean = new CsvToBeanBuilder(reader).withIgnoreLeadingWhiteSpace(true)
@@ -26,17 +26,20 @@ public class StateCensusAnalyser {
 			Iterator<CSVStates> stateIterator = csvToBean.iterator();
 
 			while (stateIterator.hasNext()) {
-				CSVStates state = stateIterator.next();
+				CSVStates csvStates = stateIterator.next();
 				count++;
 			}
 		} catch (NoSuchFileException e) {
-			throw new CsvException(CsvException.ExceptionType.FILE_NOT_FOUND, "Such type file doesn't exist",
-					e.getCause());
+			if (STATE_CODE_CSV_FILE_PATH.contains(".csv"))
+				throw new CensusCsvException("Please enter proper file name",
+						CensusCsvException.ExceptionType.NO_SUCH_FILE);
+			throw new CensusCsvException("Please enter proper file type",
+					CensusCsvException.ExceptionType.NO_SUCH_FILE);
 		} catch (RuntimeException e) {
-            throw new CsvException(CsvException.ExceptionType.NULL_DATA_FOUND, "binding of file to failed", e.getCause());
+			throw new CensusCsvException("Exception due to incorrect delimiter position",
+					CensusCsvException.ExceptionType.NO_SUCH_FIELD);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new CsvException(CsvException.ExceptionType.NULL_DATA_FOUND, "binding of file to failed", e.getCause());
 		}
 		return count;
 	}

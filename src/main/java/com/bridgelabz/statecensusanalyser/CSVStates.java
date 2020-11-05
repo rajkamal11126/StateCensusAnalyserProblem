@@ -1,19 +1,25 @@
 package com.bridgelabz.statecensusanalyser;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class CSVStates {
-	private String SrNo;
+	@CsvBindByName
+    private int SrNo;
+    @CsvBindByName	
 	private String StateName;
+    @CsvBindByName
 	private String TIN;
+    @CsvBindByName
 	private String StateCode;
 
 	public CSVStates() {
 	}
 
-	public String getSrNo() {
+	public int getSrNo() {
 		return SrNo;
 	}
 
-	public void setSrNo(String srNo) {
+	public void setSrNo(int srNo) {
 		SrNo = srNo;
 	}
 
@@ -41,7 +47,7 @@ public class CSVStates {
 		StateCode = stateCode;
 	}
 
-	public CSVStates(String srNo, String stateName, String TIN, String stateCode) {
+	public CSVStates(int srNo, String stateName, String TIN, String stateCode) {
 		this.SrNo = srNo;
 		this.StateName = stateName;
 		this.TIN = TIN;
