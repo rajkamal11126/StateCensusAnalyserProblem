@@ -3,44 +3,57 @@ package com.bridgelabz.statecensusanalyser;
 import com.opencsv.bean.CsvBindByName;
 
 public class CSVStatesCensus {
+	public CSVStatesCensus() {
+	}
+
 	@CsvBindByName
-	String State;
+	private String state;
+
 	@CsvBindByName
-	Double Population;
+	private Double population;
+
 	@CsvBindByName
-	Double AreaInSqKm;
+	private Double areaInSqKm;
+
 	@CsvBindByName
-	Double DensityPerSqKm;
+	private Double densityPerSqKm;
+
+	public CSVStatesCensus(String state, Double population, Double areaInSqKm, Double densityPerSqKm) {
+		this.state = state;
+		this.population = population;
+		this.areaInSqKm = areaInSqKm;
+		this.densityPerSqKm = densityPerSqKm;
+	}
 
 	public String getState() {
-		return State;
+		return state;
 	}
 
 	public void setState(String state) {
-		State = state;
+		this.state = state;
 	}
 
 	public Double getPopulation() {
-		return Population;
+		return population;
 	}
 
 	public void setPopulation(Double population) {
-		Population = population;
+		this.population = population;
 	}
 
 	public Double getAreaInSqKm() {
-		return AreaInSqKm;
+		return areaInSqKm;
 	}
 
 	public void setAreaInSqKm(Double areaInSqKm) {
-		AreaInSqKm = areaInSqKm;
+		this.areaInSqKm = areaInSqKm;
 	}
 
 	public Double getDensityPerSqKm() {
-		return DensityPerSqKm;
+		return densityPerSqKm;
 	}
 
 	public void setDensityPerSqKm(Double densityPerSqKm) {
-		DensityPerSqKm = densityPerSqKm;
+		this.densityPerSqKm = densityPerSqKm;
 	}
 }

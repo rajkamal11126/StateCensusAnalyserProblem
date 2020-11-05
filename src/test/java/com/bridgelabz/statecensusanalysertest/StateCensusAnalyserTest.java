@@ -39,7 +39,6 @@ public class StateCensusAnalyserTest {
 	public void givenWrongFilePath_ShouldThrowRunTimeException() {
 		try {
 			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(INCORRECT_FILE);
-			@SuppressWarnings("unused")
 			int checkNumberOfRecords = stateCensusAnalyser.readStateData();
 		} catch (CensusCsvException e) {
 			e.printStackTrace();
@@ -71,7 +70,6 @@ public class StateCensusAnalyserTest {
 			System.out.println(e.getMessage());
 			Assert.assertEquals("Exception due to Header", e.getMessage());
 		}
-
 	}
 
 	@Test
@@ -115,6 +113,19 @@ public class StateCensusAnalyserTest {
 		} catch (CensusCsvException e) {
 			System.out.println(e.getMessage());
 			Assert.assertEquals("Exception due to incorrect delimiter position", e.getMessage());
+		}
+	}
+
+	@Test
+	public void givenMethod_ifFoundNoHeaderInCSVStatusCensus_ShouldReturnException() {
+
+		try {
+			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CENSUS_INFO_CSV_FILE_PATH);
+			int value = stateCensusAnalyser.readStateData();
+			Assert.assertEquals(29, value);
+		} catch (CensusCsvException e) {
+			System.out.println(e.getMessage());
+			Assert.assertEquals("Exception due to Header", e.getMessage());
 		}
 	}
 }
