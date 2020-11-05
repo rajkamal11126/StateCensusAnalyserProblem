@@ -5,12 +5,24 @@ import java.io.IOException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.bridgelabz.statecensusanalyser.CsvException;
 import com.bridgelabz.statecensusanalyser.StateCensusAnalyser;
 
 public class StateCensusAnalyserTest {
-	@Test
-	public void checkToEnsure_NumberOfRecordsMatches() throws IOException {
-		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
+	private String STATE_CODE_CSV_FILE = "/StateCensusAnalyser/src/main/resources/IndiaStateCode.csv";
+	private String WRONG_STATE_CODE_CSV_FILE = "/StateCensusAnalyser/src/main/resources/IndiaStateCode12.csv";
+	public void checkToEnsure_NumberOfRecordsMatches() throws IOException, CsvException {
+		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CODE_CSV_FILE);
 		Assert.assertEquals(37, stateCensusAnalyser.readStateData());
 	}
-}
+
+	@Test
+    public void givenWrongFileName_ShouldThrowNoSuchFileException() throws CsvException {
+        try {
+            StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser("WRONG_STATE_CODE_CSV_FILE");
+            int checkNumberOfRecords = stateCensusAnalyser.readStateData();
+        } catch (CsvException e) {
+            Assert.assertEquals("Such type file doesn't exist", e.getMessage());
+        }
+	}
+} 
