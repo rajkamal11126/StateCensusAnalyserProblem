@@ -81,15 +81,28 @@ public class StateCensusAnalyserTest {
 		int count = stateCensusAnalyser.readStateCensusInformation();
 		Assert.assertEquals(29, count);
 	}
-	 @Test
-	    public void givenMethod_ifFoundIncorrectName_OfStatesCensusFile_ShouldThrowException() throws IOException {
-	        StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CENSUS_INFO_CSV_FILE_PATH);
-	        try {
-	            int value = stateCensusAnalyser.readStateCensusInformation();
-	            Assert.assertEquals(29, value);
-	        } catch (CensusCsvException e) {
-	            System.out.println(e.getMessage());
-	            Assert.assertEquals("Please enter proper file name", e.getMessage());
-	        }
-	    }
+
+	@Test
+	public void givenMethod_ifFoundIncorrectName_OfStatesCensusFile_ShouldThrowException() throws IOException {
+		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CENSUS_INFO_CSV_FILE_PATH);
+		try {
+			int value = stateCensusAnalyser.readStateCensusInformation();
+			Assert.assertEquals(29, value);
+		} catch (CensusCsvException e) {
+			System.out.println(e.getMessage());
+			Assert.assertEquals("Please enter proper file name", e.getMessage());
+		}
+	}
+
+	@Test
+	public void givenWrongFilePath_ShouldThrowRunTimeException_ReturnFalse() {
+		try {
+			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(INCORRECT_FILE);
+			int checkNumberOfRecords = stateCensusAnalyser.readStateCensusInformation();
+		} catch (CensusCsvException e) {
+			e.printStackTrace();
+			Assert.assertEquals("binding of file to failed", e.getMessage());
+		}
+	}
+
 }
