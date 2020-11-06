@@ -17,7 +17,7 @@ public class StateCensusAnalyserTest {
 	private String WRONG_STATE_CODE_CSV_FILE = "/StateCensusAnalyser/src/main/resources/IndiaStateCode12.csv";
 	private String STATE_CENSUS_INFO_CSV_FILE_PATH = "/StateCensusAnalyser/src/main/resources/IndiaStateCensusData.csv";
 	private String INCORRECT_FILE = "/StateCensusAnalyser/gradlew.bat";
-
+	private String INCORRECT_STATE_CODE = "/StateCensusAnalyser/src/main/resources/IncorrectStatecode.csv";
 	@Test
 	public void checkToEnsure_NumberOfRecordsMatches() throws CensusCsvException {
 		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CODE_CSV_FILE);
@@ -52,7 +52,7 @@ public class StateCensusAnalyserTest {
 	public void givenMethod_ifFoundIncorrectDelimiterPosition_ShouldReturnException()
 			throws IOException, CensusCsvException {
 		try {
-			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CODE_CSV_FILE);
+			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(INCORRECT_STATE_CODE);
 			int value = stateCensusAnalyser.readStateData(CSVStates.class);
 			Assert.assertEquals(37, value);
 		} catch (CensusCsvException e) {
