@@ -4,7 +4,7 @@ import com.opencsv.bean.CsvBindByName;
 
 public class CSVStates {
 	@CsvBindByName
-    private int SrNo;
+    private Integer SrNo;
     @CsvBindByName	
 	private String StateName;
     @CsvBindByName
@@ -15,7 +15,7 @@ public class CSVStates {
 	public CSVStates() {
 	}
 
-	public int getSrNo() {
+	public Integer getSrNo() {
 		return SrNo;
 	}
 
