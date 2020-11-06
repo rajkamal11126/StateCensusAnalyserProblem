@@ -98,4 +98,11 @@ public class CsvStateCensusCode {
 	public void setDensityPerSqKm(Double densityPerSqKm) {
 		this.densityPerSqKm = densityPerSqKm;
 	}
+
+	@Override
+	public String toString() {
+		return "CsvStateCensusCode{" + "srNo=" + srNo + ", stateName='" + stateName + '\'' + ", TIN='" + TIN + '\''
+				+ ", stateCode='" + stateCode + '\'' + ", state='" + state + '\'' + ", population=" + population
+				+ ", areaInSqKm=" + areaInSqKm + ", densityPerSqKm=" + densityPerSqKm + '}';
+	}
 }

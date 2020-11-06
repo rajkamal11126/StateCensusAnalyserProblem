@@ -56,4 +56,10 @@ public class CSVStatesCensus {
 	public void setDensityPerSqKm(Double densityPerSqKm) {
 		this.densityPerSqKm = densityPerSqKm;
 	}
+
+	@Override
+	public String toString() {
+		return "CSVStateCensus{" + "state='" + state + '\'' + ", population=" + population + ", areaInSqKm="
+				+ areaInSqKm + ", densityPerSqKm=" + densityPerSqKm + '}';
+	}
 }
