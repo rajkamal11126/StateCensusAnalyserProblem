@@ -20,7 +20,7 @@ public class StateCensusAnalyserTest {
 	private String INCORRECT_STATE_CODE = "/StateCensusAnalyser/src/main/resources/IncorrectStatecode.csv";
 	@Test
 	public void checkToEnsure_NumberOfRecordsMatches() throws CensusCsvException {
-		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CODE_CSV_FILE);
+		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CODE_CSV_FILE); 
 		Assert.assertEquals(37, stateCensusAnalyser.readStateData(CSVStates.class));
 	}
 
