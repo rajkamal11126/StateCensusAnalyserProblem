@@ -18,9 +18,10 @@ public class StateCensusAnalyserTest {
 	private String STATE_CENSUS_INFO_CSV_FILE_PATH = "/StateCensusAnalyser/src/main/resources/IndiaStateCensusData.csv";
 	private String INCORRECT_FILE = "/StateCensusAnalyser/gradlew.bat";
 	private String INCORRECT_STATE_CODE = "/StateCensusAnalyser/src/main/resources/IncorrectStatecode.csv";
+
 	@Test
 	public void checkToEnsure_NumberOfRecordsMatches() throws CensusCsvException {
-		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CODE_CSV_FILE); 
+		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CODE_CSV_FILE);
 		Assert.assertEquals(37, stateCensusAnalyser.readStateData(CSVStates.class));
 	}
 
@@ -110,7 +111,7 @@ public class StateCensusAnalyserTest {
 			throws IOException, CensusCsvException {
 		try {
 			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CENSUS_INFO_CSV_FILE_PATH);
-			 int value = stateCensusAnalyser.readStateData(CSVStatesCensus.class);
+			int value = stateCensusAnalyser.readStateData(CSVStatesCensus.class);
 			Assert.assertEquals(29, value);
 		} catch (CensusCsvException e) {
 			System.out.println(e.getMessage());
@@ -127,6 +128,50 @@ public class StateCensusAnalyserTest {
 			Assert.assertEquals(29, value);
 		} catch (CensusCsvException e) {
 			System.out.println(e.getMessage());
+			Assert.assertEquals("Exception due to Header", e.getMessage());
+		}
+	}
+
+	@Test
+	public void givenCsvFile_ifSortBystateAlphabeticalOrder_ShouldReturnTrue() {
+		try {
+			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CENSUS_INFO_CSV_FILE_PATH);
+			int value = stateCensusAnalyser.readStateData(CSVStatesCensus.class);
+			Assert.assertEquals(29, value);
+		} catch (CensusCsvException e) {
+			Assert.assertEquals("Exception due to Header", e.getMessage());
+		}
+	}
+
+	@Test
+	public void givenCsvFile_ifSortByMostPopulatedState_ShouldReturnTrue() {
+		try {
+			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CENSUS_INFO_CSV_FILE_PATH);
+			int value = stateCensusAnalyser.readStateData(CSVStatesCensus.class);
+			Assert.assertEquals(29, value);
+		} catch (CensusCsvException e) {
+			Assert.assertEquals("Exception due to Header", e.getMessage());
+		}
+	}
+
+	@Test
+	public void givenCsvFile_ifSortByPopulationDensityState_ShouldReturnTrue() {
+		try {
+			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CENSUS_INFO_CSV_FILE_PATH);
+			int value = stateCensusAnalyser.readStateData(CSVStatesCensus.class);
+			Assert.assertEquals(29, value);
+		} catch (CensusCsvException e) {
+			Assert.assertEquals("Exception due to Header", e.getMessage());
+		}
+	}
+
+	@Test
+	public void givenCsvFile_ifSortByLargestStateArea_ShouldReturnTrue() {
+		try {
+			StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser(STATE_CENSUS_INFO_CSV_FILE_PATH);
+			int value = stateCensusAnalyser.readStateData(CSVStatesCensus.class);
+			Assert.assertEquals(29, value);
+		} catch (CensusCsvException e) {
 			Assert.assertEquals("Exception due to Header", e.getMessage());
 		}
 	}

@@ -21,6 +21,7 @@ public class StateCensusAnalyser {
 	private static String SAMPLE_JSON_FILE_PATH = "/StateCensusAnalyser/src/main/resources/CSVStatesCensusJsonFile.json";
 	private static String POPULATION_JSON_FILE_PATH = "/StateCensusAnalyser/src/main/resources/Population.json";
 	private static String POPULATION_DENSITY_JSON_FILE_PATH = "/StateCensusAnalyser/src/main/resources/PopulationDensity.json";
+	private static String LARGEST_STATE_BY_AREA = "/StateCensusAnalyser/src/main/resources/LargestStateArea.json";
 
 	public StateCensusAnalyser(String CSV_FILE_PATH) {
 		this.CSV_FILE_PATH = CSV_FILE_PATH;
@@ -50,9 +51,6 @@ public class StateCensusAnalyser {
 					}
 				}
 			}
-			stateAlphabeticalOrder((List<CSVStatesCensus>) statesCensusList);
-			mostPopulatedState((List<CSVStatesCensus>) statesCensusList);
-			populationDensityState((List<CSVStatesCensus>) statesCensusList);
 		} catch (NoSuchFileException e) {
 			if (CSV_FILE_PATH.contains(".csv")) {
 				throw new CensusCsvException("Please enter proper file name",
@@ -67,37 +65,33 @@ public class StateCensusAnalyser {
 		return count;
 	}
 
-	public void stateAlphabeticalOrder(List<CSVStatesCensus> statesCensusList) throws IOException {
-		Comparator<CSVStatesCensus> c = (s1, s2) -> s1.getState().compareTo(s2.getState());
-		statesCensusList.sort(c);
-		System.out.println(statesCensusList);
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String json = gson.toJson(statesCensusList);
-		FileWriter writer = new FileWriter(SAMPLE_JSON_FILE_PATH);
-		writer.write(json);
-		writer.close();
+	public void sortingList(List<CSVStatesCensus> statesCensusList, String sortType) throws IOException {
+		if (sortType.equals("stateAlphabeticalOrder")) {
+			Comparator<CSVStatesCensus> statesCensusComparator = Comparator.comparing(CSVStatesCensus::getState);
+			writeToJson(statesCensusList, SAMPLE_JSON_FILE_PATH);
+		}
+		if (sortType.equals("mostPopulatedState")) {
+			Comparator<CSVStatesCensus> statesCensusComparator = Comparator.comparing(CSVStatesCensus::getPopulation);
+			statesCensusList.sort(statesCensusComparator);
+			writeToJson(statesCensusList, POPULATION_JSON_FILE_PATH);
+		}
+		if (sortType.equals("populationDensityState")) {
+			Comparator<CSVStatesCensus> statesCensusComparator = Comparator
+					.comparing(CSVStatesCensus::getDensityPerSqKm);
+			statesCensusList.sort(statesCensusComparator);
+			writeToJson(statesCensusList, POPULATION_DENSITY_JSON_FILE_PATH);
+		}
+		if (sortType.equals("largestStateArea")) {
+			Comparator<CSVStatesCensus> statesCensusComparator = Comparator.comparing(CSVStatesCensus::getAreaInSqKm);
+			statesCensusList.sort(statesCensusComparator);
+			writeToJson(statesCensusList, LARGEST_STATE_BY_AREA);
+		}
 	}
 
-	public void mostPopulatedState(List<CSVStatesCensus> statesCensusList) throws IOException {
-		Comparator<CSVStatesCensus> c = (s1, s2) -> Integer.parseInt(s2.getPopulation().toString().trim())
-				- Integer.parseInt(s1.getPopulation().toString().trim());
-		statesCensusList.sort(c);
-		System.out.println(statesCensusList);
+	public static void writeToJson(List<CSVStatesCensus> statesCensusList, String filePath) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String json = gson.toJson(statesCensusList);
-		FileWriter writer = new FileWriter(POPULATION_JSON_FILE_PATH);
-		writer.write(json);
-		writer.close();
-	}
-
-	public void populationDensityState(List<CSVStatesCensus> statesCensusList) throws IOException {
-		Comparator<CSVStatesCensus> c = (s1, s2) -> Integer.parseInt(s2.getDensityPerSqKm().toString().trim())
-				- Integer.parseInt(s1.getDensityPerSqKm().toString().trim());
-		statesCensusList.sort(c);
-		System.out.println(statesCensusList);
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String json = gson.toJson(statesCensusList);
-		FileWriter writer = new FileWriter(POPULATION_DENSITY_JSON_FILE_PATH);
+		FileWriter writer = new FileWriter(filePath);
 		writer.write(json);
 		writer.close();
 	}
